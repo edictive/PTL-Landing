@@ -108,6 +108,18 @@
         font-style: italic;
         font-display: swap;
       }
+      /* Radial oval sizing for footer backdrop */
+      :root {
+        --oval-rx: 100vw; /* full viewport width */
+        --oval-ry: 8rem; /* mobile & tablet visible height */
+      }
+      @media (min-width: 1024px) {
+        /* desktop */
+        :root {
+          --oval-rx: 100vw; /* full viewport width */
+          --oval-ry: 12rem; /* desktop visible height */
+        }
+      }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -124,10 +136,10 @@
     </script>
   </head>
 
-  <body class="overflow-x-hidden bg-white">
+  <body class="relative overflow-x-hidden bg-white">
     <!-- Main Content -->
     <main
-      class="flex min-h-screen flex-col items-start justify-start gap-8 px-1 pt-16 pb-48 md:px-4 lg:flex-row lg:gap-12 lg:pt-[6rem]"
+      class="flex min-h-screen flex-col items-start justify-start gap-8 px-1 pt-16 pb-12 md:px-4 lg:flex-row lg:gap-12 lg:pt-[6rem] lg:pb-36"
     >
       <div
         class="mx-auto mb-8 w-full max-w-screen-xl px-6 lg:max-w-[62rem] lg:px-0"
@@ -261,13 +273,27 @@
         </div>
       </div>
     </main>
-    <!-- Floating right footer -->
-    <footer class="pointer-events-none fixed right-4 bottom-4 z-50">
-      <div
-        class="pointer-events-auto rounded-sm bg-white/5 px-1.5 py-1 text-sm text-stone-400 shadow-xl ring-1 ring-black/5 backdrop-blur-md"
-      >
-        © 2025 Predictive Text Labs
-      </div>
+    <!-- Subtle circular gradient background that fades to transparent -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 z-0"
+      style="
+        background: radial-gradient(
+          ellipse var(--oval-rx) var(--oval-ry) at 50% 100%,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0.9) 45%,
+          rgba(255, 255, 255, 0.5) 65%,
+          rgba(255, 255, 255, 0.2) 82%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      "
+    ></div>
+
+    <!-- Footer -->
+    <footer
+      class="pointer-events-none fixed inset-x-0 bottom-4 z-10 text-center text-stone-500"
+    >
+      <div class="text-sm">© 2025 Predictive Text Labs</div>
     </footer>
   </body>
 </html>
