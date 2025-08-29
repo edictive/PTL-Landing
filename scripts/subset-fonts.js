@@ -71,7 +71,8 @@ function extractCharsFromHTML(file) {
 }
 
 function charsToUnicodeArg(chars) {
-  // Convert to comma-separated U+XXXX list
+  // Convert to comma-separated U+XXXX tokens. For ranges, the correct
+  // fonttools syntax is: U+XXXX-YYYY (only one leading U+ per token).
   const codepoints = chars.map((ch) => ch.codePointAt(0));
   codepoints.sort((a, b) => a - b);
   // Merge small ranges for a compact arg
@@ -91,9 +92,9 @@ function charsToUnicodeArg(chars) {
     }
   }
   if (start !== null) ranges.push([start, prev]);
-  const fmt = (cp) => 'U+' + cp.toString(16).toUpperCase().padStart(4, '0');
+  const fmt = (cp) => cp.toString(16).toUpperCase().padStart(4, '0');
   return ranges
-    .map(([a, b]) => (a === b ? fmt(a) : `${fmt(a)}-${fmt(b)}`))
+    .map(([a, b]) => (a === b ? `U+${fmt(a)}` : `U+${fmt(a)}-${fmt(b)}`))
     .join(',');
 }
 
@@ -111,10 +112,12 @@ function subsetOneFont(srcPath, unicodesArg) {
     `--unicodes=${unicodesArg}`,
   ];
   const res = spawnSync('python3', args, { stdio: 'inherit' });
-  if (res.status !== 0) {
-    throw new Error(`fontTools.subset failed for ${srcPath}`);
+  if (res.status !== 0 || !fs.existsSync(outTmp)) {
+    log(`WARN: subsetting failed for ${path.basename(srcPath)}; keeping original file`);
+    return false;
   }
   fs.renameSync(outTmp, srcPath);
+  return true;
 }
 
 (async function main() {
@@ -140,7 +143,8 @@ function subsetOneFont(srcPath, unicodesArg) {
     }
     log('Done.');
   } catch (err) {
-    console.error(err);
-    process.exit(1);
+    console.error('[subset-fonts] ERROR:', err.message || err);
+    // Do not fail the build; keep original fonts.
+    process.exit(0);
   }
 })();
