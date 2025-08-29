@@ -87,6 +87,7 @@
       as="font"
       href="/fonts/Cormorant Variable Font.woff2"
       type="font/woff2"
+      crossorigin
       fetchpriority="high"
     />
     <link
@@ -94,6 +95,7 @@
       as="font"
       href="/fonts/Cormorant Italic Variable Font.woff2"
       type="font/woff2"
+      crossorigin
       fetchpriority="high"
     />
 
@@ -104,14 +106,14 @@
         src: url("/fonts/Cormorant Variable Font.woff2") format("woff2");
         font-weight: 300 700;
         font-style: normal;
-        font-display: swap;
+        font-display: optional;
       }
       @font-face {
         font-family: "Cormorant";
         src: url("/fonts/Cormorant Italic Variable Font.woff2") format("woff2");
         font-weight: 300 700;
         font-style: italic;
-        font-display: swap;
+        font-display: optional;
       }
       /* Critical CSS to prevent initial layout shift before Tailwind loads */
       html,
@@ -119,6 +121,8 @@
         margin: 0; /* avoid UA 8px body margin CLS */
         background: #ffffff;
       }
+      /* Reserve scrollbar gutter to prevent width jumps on first layout */
+      html { scrollbar-gutter: stable both-edges; }
       /* Preapply final metrics for the hero <h1> to avoid CLS */
       h1[data-hero] {
         font-family: "Cormorant", serif;
