@@ -155,12 +155,16 @@
     <link rel="preload" href="/assets/tailwind.css" as="style" fetchpriority="high" />
     <!-- Compiled Tailwind CSS (self-hosted, non-blocking of network handshake) -->
     <link rel="stylesheet" href="/assets/tailwind.css" />
+    <!-- Utility shim for arbitrary value used below (ensures effect without rebuild) -->
+    <style>
+      .min-h-\[100svh\] { min-height: 100svh; }
+    </style>
   </head>
 
   <body class="relative overflow-x-hidden bg-white">
     <!-- Main Content -->
     <main
-      class="flex min-h-screen flex-col items-start justify-start gap-8 px-1 pt-16 pb-12 md:px-4 lg:flex-row lg:gap-12 lg:pt-16 lg:pt-[6rem] lg:pb-36"
+      class="flex min-h-screen min-h-[100svh] flex-col items-start justify-start gap-8 px-1 pt-16 pb-12 md:px-4 lg:flex-row lg:gap-12 lg:pt-16 lg:pt-[6rem] lg:pb-36"
     >
       <div
         class="mx-auto mb-8 w-full max-w-screen-xl px-6 lg:max-w-[62rem] lg:px-0"
