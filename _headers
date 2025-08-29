@@ -1,0 +1,12 @@
+# Immutable cache for versioned assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Default: HTML should be revalidated
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+

@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Removed no-FOUC body hiding to avoid LCP render delay -->
+    <script>
+      // Prevent FOUC: start hidden; we'll reveal after CSS arrives (not fonts)
+      document.documentElement.classList.add("no-fouc");
+    </script>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -86,7 +89,7 @@
     <link
       rel="preload"
       as="font"
-      href="/fonts/Cormorant Variable Font.1c7a1cfe21.woff2"
+      href="\/fonts\/Cormorant Variable Font\.1c7a1cfe21\.woff2"
       type="font/woff2"
       crossorigin
       fetchpriority="high"
@@ -94,7 +97,7 @@
     <link
       rel="preload"
       as="font"
-      href="/fonts/Cormorant Italic Variable Font.5807f0c80b.woff2"
+      href="\/fonts\/Cormorant Italic Variable Font\.5807f0c80b\.woff2"
       type="font/woff2"
       crossorigin
       fetchpriority="high"
@@ -102,17 +105,18 @@
 
     <!-- Self-hosted Cormorant variable font -->
     <style>
-      /* Render immediately; avoid hiding content which delays LCP */
+      /* Keep page hidden only until CSS/Fonts ready */
+      .no-fouc body { visibility: hidden }
       @font-face {
         font-family: "Cormorant";
-        src: url("/fonts/Cormorant Variable Font.1c7a1cfe21.woff2") format("woff2");
+        src: url("\/fonts\/Cormorant Variable Font\.1c7a1cfe21\.woff2") format("woff2");
         font-weight: 300 700;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: "Cormorant";
-        src: url("/fonts/Cormorant Italic Variable Font.5807f0c80b.woff2") format("woff2");
+        src: url("\/fonts\/Cormorant Italic Variable Font\.5807f0c80b\.woff2") format("woff2");
         font-weight: 300 700;
         font-style: italic;
         font-display: swap;
@@ -164,7 +168,27 @@
     />
     <!-- Compiled Tailwind CSS (self-hosted) -->
     <link id="tailwind-css" rel="stylesheet" href="/assets/tailwind.caf38cbca7.css" />
-    <!-- Removed JS that delayed first paint behind CSS load -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var show = function () { root.classList.remove("no-fouc"); };
+
+        // Reveal immediately after CSS is ready; don't block on font downloads.
+        var link = document.getElementById("tailwind-css");
+        if (link) {
+          if (link.sheet) {
+            // CSS is already parsed (bfcache/HTTP2 push/preload path)
+            show();
+          } else {
+            link.addEventListener("load", show, { once: true });
+          }
+        }
+
+        // Safety: if the CSS link fails to load for any reason, unhide after a tick
+        setTimeout(show, 900);
+      })();
+    </script>
+    <noscript><style>.no-fouc body{visibility:visible}</style></noscript>
     <!-- Small utility + critical typography shim to reduce CLS on slow CSS -->
     <style>
       /* Viewport height stabilization across engines */
