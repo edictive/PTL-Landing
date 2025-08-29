@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <script>
-      // Prevent FOUC: hide until CSS is ready
+      // Prevent FOUC/FOIT: hide until CSS/Fonts are ready
       document.documentElement.classList.add("no-fouc");
     </script>
     <meta charset="UTF-8" />
@@ -85,12 +85,27 @@
       }
     </script>
 
-    <!-- Note: Avoid preloading fonts to keep them off the critical path.
-         `font-display: swap` below ensures text renders with a fallback first. -->
+    <!-- Preload local variable fonts for faster first paint -->
+    <link
+      rel="preload"
+      as="font"
+      href="/fonts/Cormorant Variable Font.woff2"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="font"
+      href="/fonts/Cormorant Italic Variable Font.woff2"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="high"
+    />
 
     <!-- Self-hosted Cormorant variable font -->
     <style>
-      /* Keep page hidden only until CSS is ready */
+      /* Keep page hidden only until CSS/Fonts ready */
       .no-fouc body { visibility: hidden }
       @font-face {
         font-family: "Cormorant";
@@ -157,18 +172,27 @@
       (function () {
         var root = document.documentElement;
         var show = function () { root.classList.remove("no-fouc"); };
+
+        function whenFontsReady() {
+          var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+          return Promise.race([
+            fontsReady,
+            // Safety timeout: never hold the paint too long
+            new Promise(function (r) { setTimeout(r, 1200); })
+          ]);
+        }
+
         var link = document.getElementById("tailwind-css");
         if (link) {
           // If CSS is already loaded (bfcache / fast path)
           if (link.sheet) {
-            show();
+            whenFontsReady().then(show);
           } else {
-            // Reveal as soon as CSS is ready; fonts will swap in when available
-            link.addEventListener("load", show, { once: true });
+            link.addEventListener("load", function () { whenFontsReady().then(show); }, { once: true });
           }
         } else {
           // Fallback: no link element found
-          show();
+          whenFontsReady().then(show);
         }
       })();
     </script>
