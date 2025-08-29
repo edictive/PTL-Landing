@@ -2,7 +2,9 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "build:css": "tailwindcss -i ./src/styles.css -o ./assets/tailwind.css -m"
+    "build:css": "tailwindcss -i ./src/styles.css -o ./assets/tailwind.css -m",
+    "subset:fonts": "node scripts/subset-fonts.js",
+    "build": "npm run build:css && npm run subset:fonts"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.10",
