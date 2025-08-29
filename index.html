@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <script>
-      // Prevent FOUC/FOIT: hide until CSS/Fonts are ready
+      // Prevent FOUC: start hidden; we'll reveal after CSS arrives (not fonts)
       document.documentElement.classList.add("no-fouc");
     </script>
     <meta charset="UTF-8" />
@@ -173,27 +173,19 @@
         var root = document.documentElement;
         var show = function () { root.classList.remove("no-fouc"); };
 
-        function whenFontsReady() {
-          var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-          return Promise.race([
-            fontsReady,
-            // Safety timeout: never hold the paint too long
-            new Promise(function (r) { setTimeout(r, 1200); })
-          ]);
-        }
-
+        // Reveal immediately after CSS is ready; don't block on font downloads.
         var link = document.getElementById("tailwind-css");
         if (link) {
-          // If CSS is already loaded (bfcache / fast path)
           if (link.sheet) {
-            whenFontsReady().then(show);
+            // CSS is already parsed (bfcache/HTTP2 push/preload path)
+            show();
           } else {
-            link.addEventListener("load", function () { whenFontsReady().then(show); }, { once: true });
+            link.addEventListener("load", show, { once: true });
           }
-        } else {
-          // Fallback: no link element found
-          whenFontsReady().then(show);
         }
+
+        // Safety: if the CSS link fails to load for any reason, unhide after a tick
+        setTimeout(show, 900);
       })();
     </script>
     <noscript><style>.no-fouc body{visibility:visible}</style></noscript>
