@@ -115,28 +115,6 @@
         font-style: italic;
         font-display: optional;
       }
-      /* Metric-override fallback to minimize layout shift before font swap */
-      /* These values approximate Cormorant's metrics to stabilize first paint */
-      @font-face {
-        font-family: "Cormorant Fallback";
-        src: local("Georgia"), local("Times New Roman"), local("Times");
-        font-style: normal;
-        font-weight: 300 700;
-        ascent-override: 90%;
-        descent-override: 24%;
-        line-gap-override: 0%;
-        size-adjust: 108%;
-      }
-      @font-face {
-        font-family: "Cormorant Fallback";
-        src: local("Georgia Italic"), local("Times New Roman Italic"), local("Times Italic");
-        font-style: italic;
-        font-weight: 300 700;
-        ascent-override: 90%;
-        descent-override: 24%;
-        line-gap-override: 0%;
-        size-adjust: 108%;
-      }
       /* Critical CSS to prevent initial layout shift before Tailwind loads */
       html,
       body {
@@ -146,8 +124,6 @@
       /* Reserve scrollbar gutter to prevent width jumps on first layout */
       html {
         scrollbar-gutter: stable both-edges;
-        /* Fallback for engines or tooling that ignore scrollbar-gutter */
-        overflow-y: scroll;
       }
       /* Preapply final metrics for the hero <h1> to avoid CLS */
       h1[data-hero] {
@@ -166,14 +142,13 @@
       }
       /* Radial oval sizing for footer backdrop */
       :root {
-        /* Use percentage instead of 100vw to avoid viewport scrollbar width jitter */
-        --oval-rx: 100%; /* full viewport width without scrollbar jitter */
+        --oval-rx: 100vw; /* full viewport width */
         --oval-ry: 8rem; /* mobile & tablet visible height */
       }
       @media (min-width: 1024px) {
         /* desktop */
         :root {
-          --oval-rx: 100%; /* full viewport width without scrollbar jitter */
+          --oval-rx: 100vw; /* full viewport width */
           --oval-ry: 12rem; /* desktop visible height */
         }
       }
@@ -202,8 +177,7 @@
       }
       /* Baseline mobile typography to match utilities before Tailwind parses */
       html {
-        /* Use metric-override fallback to reduce FOUT/CLS */
-        font-family: "Cormorant", "Cormorant Fallback", serif;
+        font-family: "Cormorant", serif;
       }
       header > p {
         font-size: 1.875rem;
