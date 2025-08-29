@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      // Prevent FOUC/FOIT: hide until CSS/Fonts are ready
+      document.documentElement.classList.add("no-fouc");
+    </script>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -101,19 +105,21 @@
 
     <!-- Self-hosted Cormorant variable font -->
     <style>
+      /* Keep page hidden only until CSS/Fonts ready */
+      .no-fouc body { visibility: hidden }
       @font-face {
         font-family: "Cormorant";
         src: url("/fonts/Cormorant Variable Font.woff2") format("woff2");
         font-weight: 300 700;
         font-style: normal;
-        font-display: optional;
+        font-display: swap;
       }
       @font-face {
         font-family: "Cormorant";
         src: url("/fonts/Cormorant Italic Variable Font.woff2") format("woff2");
         font-weight: 300 700;
         font-style: italic;
-        font-display: optional;
+        font-display: swap;
       }
       /* Critical CSS to prevent initial layout shift before Tailwind loads */
       html,
@@ -160,8 +166,37 @@
       as="style"
       fetchpriority="high"
     />
-    <!-- Compiled Tailwind CSS (self-hosted, non-blocking of network handshake) -->
-    <link rel="stylesheet" href="/assets/tailwind.css" />
+    <!-- Compiled Tailwind CSS (self-hosted) -->
+    <link id="tailwind-css" rel="stylesheet" href="/assets/tailwind.css" />
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var show = function () { root.classList.remove("no-fouc"); };
+
+        function whenFontsReady() {
+          var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+          return Promise.race([
+            fontsReady,
+            // Safety timeout: never hold the paint too long
+            new Promise(function (r) { setTimeout(r, 1200); })
+          ]);
+        }
+
+        var link = document.getElementById("tailwind-css");
+        if (link) {
+          // If CSS is already loaded (bfcache / fast path)
+          if (link.sheet) {
+            whenFontsReady().then(show);
+          } else {
+            link.addEventListener("load", function () { whenFontsReady().then(show); }, { once: true });
+          }
+        } else {
+          // Fallback: no link element found
+          whenFontsReady().then(show);
+        }
+      })();
+    </script>
+    <noscript><style>.no-fouc body{visibility:visible}</style></noscript>
     <!-- Small utility + critical typography shim to reduce CLS on slow CSS -->
     <style>
       /* Viewport height stabilization across engines */
