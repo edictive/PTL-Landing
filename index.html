@@ -106,6 +106,27 @@
         font-style: italic;
         font-display: swap;
       }
+      /* Critical CSS to prevent initial layout shift before Tailwind loads */
+      html,
+      body {
+        margin: 0; /* avoid UA 8px body margin CLS */
+        background: #ffffff;
+      }
+      /* Preapply final metrics for the hero <h1> to avoid CLS */
+      h1[data-hero] {
+        font-family: "Cormorant", serif;
+        font-weight: 500; /* font-medium */
+        letter-spacing: 0.05em; /* tracking-wider */
+        margin-bottom: 0.25rem; /* mb-1 */
+        font-size: 3.75rem; /* text-6xl */
+        line-height: 1; /* leading-\[1\] */
+      }
+      @media (min-width: 64rem) {
+        h1[data-hero] {
+          font-size: 6rem; /* lg:text-8xl */
+          margin-bottom: 0.75rem; /* lg:mb-3 */
+        }
+      }
       /* Radial oval sizing for footer backdrop */
       :root {
         --oval-rx: 100vw; /* full viewport width */
@@ -119,6 +140,8 @@
         }
       }
     </style>
+    <!-- Preload Tailwind to reduce time-to-style and further cut CLS -->
+    <link rel="preload" href="/assets/tailwind.css" as="style" />
     <!-- Compiled Tailwind CSS (self-hosted, non-blocking of network handshake) -->
     <link rel="stylesheet" href="/assets/tailwind.css" />
   </head>
@@ -137,6 +160,7 @@
           <header class="max-w-[36rem] lg:col-start-1">
             <h1
               class="mb-1 text-6xl font-medium tracking-wider text-stone-700 lg:mb-3 lg:text-8xl"
+              data-hero
             >
               Predictive
             </h1>
