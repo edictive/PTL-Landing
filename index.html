@@ -28,8 +28,6 @@
     <meta name="format-detection" content="telephone=no" />
 
     <!-- Performance hints for external assets -->
-    <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -121,19 +119,8 @@
         }
       }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Cormorant", "serif"],
-              mono: ["Cormorant", "serif"],
-            },
-          },
-        },
-      };
-    </script>
+    <!-- Compiled Tailwind CSS (self-hosted, non-blocking of network handshake) -->
+    <link rel="stylesheet" href="/assets/tailwind.css" />
   </head>
 
   <body class="relative overflow-x-hidden bg-white">

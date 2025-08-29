@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-first theme customization */
+@theme {
+  --font-sans: "Cormorant", serif;
+  --font-mono: "Cormorant", serif;
+}
+
