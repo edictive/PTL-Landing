@@ -81,11 +81,18 @@
       }
     </script>
 
-    <!-- Preload local variable font for faster first paint -->
+    <!-- Preload local variable fonts for faster first paint -->
     <link
       rel="preload"
       as="font"
       href="/fonts/Cormorant Variable Font.woff2"
+      type="font/woff2"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="font"
+      href="/fonts/Cormorant Italic Variable Font.woff2"
       type="font/woff2"
       fetchpriority="high"
     />
@@ -141,7 +148,7 @@
       }
     </style>
     <!-- Preload Tailwind to reduce time-to-style and further cut CLS -->
-    <link rel="preload" href="/assets/tailwind.css" as="style" />
+    <link rel="preload" href="/assets/tailwind.css" as="style" fetchpriority="high" />
     <!-- Compiled Tailwind CSS (self-hosted, non-blocking of network handshake) -->
     <link rel="stylesheet" href="/assets/tailwind.css" />
   </head>
