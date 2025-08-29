@@ -170,7 +170,7 @@
           min-height: 100svh;
         }
       }
-      @supports not (min-height: 100svh) and (min-height: 100dvh) {
+      @supports ((not (min-height: 100svh)) and (min-height: 100dvh)) {
         .min-h-\[100dvh\] {
           min-height: 100dvh;
         }
@@ -190,11 +190,10 @@
         line-height: 1.75rem;
         margin-bottom: 1rem;
       }
+      /* Keep base heading styling light so Tailwind utilities win */
       section h2 {
-        font-size: 1.875rem;
-        line-height: 2.25rem;
         font-weight: 600;
-        margin-top: 3rem;
+        /* omit margin-top so utility classes control spacing */
         margin-bottom: 1rem;
       }
     </style>
@@ -281,7 +280,7 @@
             class="mt-0 w-full max-w-[36rem] shrink-0 text-stone-500 lg:sticky lg:top-12 lg:col-start-2 lg:row-start-2 lg:w-[18rem] lg:max-w-none lg:text-stone-700"
           >
             <ul class="space-y-4 text-xl lg:text-base">
-              <h2 class="mt-12 mb-4 text-3xl font-semibold lg:mt-0 lg:text-xl">
+              <h2 class="mt-12 mb-4 text-3xl font-semibold lg:mt-0 lg:text-base">
                 Founders
               </h2>
               <li>
@@ -313,7 +312,7 @@
                 >
               </li>
             </ul>
-            <h2 class="mt-12 mb-4 text-3xl font-semibold lg:text-xl">
+            <h2 class="mt-12 mb-4 text-3xl font-semibold lg:text-base">
               Advisors
             </h2>
             <ul class="space-y-4 text-xl lg:text-base">
