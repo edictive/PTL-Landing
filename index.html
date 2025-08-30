@@ -106,7 +106,9 @@
     <!-- Self-hosted Cormorant variable font -->
     <style>
       /* Keep page hidden only until CSS/Fonts ready */
-      .no-fouc body { visibility: hidden }
+      .no-fouc body {
+        visibility: hidden;
+      }
       @font-face {
         font-family: "Cormorant";
         src: url("/fonts/Cormorant Variable Font.woff2") format("woff2");
@@ -171,7 +173,9 @@
     <script>
       (function () {
         var root = document.documentElement;
-        var show = function () { root.classList.remove("no-fouc"); };
+        var show = function () {
+          root.classList.remove("no-fouc");
+        };
 
         // Reveal immediately after CSS is ready; don't block on font downloads.
         var link = document.getElementById("tailwind-css");
@@ -188,7 +192,13 @@
         setTimeout(show, 900);
       })();
     </script>
-    <noscript><style>.no-fouc body{visibility:visible}</style></noscript>
+    <noscript
+      ><style>
+        .no-fouc body {
+          visibility: visible;
+        }
+      </style></noscript
+    >
     <!-- Small utility + critical typography shim to reduce CLS on slow CSS -->
     <style>
       /* Viewport height stabilization across engines */
