@@ -397,5 +397,27 @@
     >
       <div class="text-sm">© 2025 Predictive Text Labs</div>
     </footer>
+    <div
+      id="ios-footer-gradient"
+      class="pointer-events-none fixed inset-x-0 bottom-0 z-0 hidden h-[calc(env(safe-area-inset-bottom)+5rem)]"
+      style="
+        background: radial-gradient(
+          50% 160% at 50% 100%,
+          white,
+          rgba(255, 255, 255, 0)
+        );
+      "
+    ></div>
+    <script>
+      const ua = window.navigator.userAgent;
+      const isIOS = /iP(hone|od|ad)/.test(ua);
+      const isSafari =
+        /Safari/.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+      if (isIOS && isSafari) {
+        document
+          .getElementById("ios-footer-gradient")
+          ?.classList.remove("hidden");
+      }
+    </script>
   </body>
 </html>
