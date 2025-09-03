@@ -252,6 +252,18 @@
         );
       "
     ></div>
+    <!-- Bottom white mask to cover iOS Safari's expanding URL bar area.
+         Sits above content but below the footer so no text shows through
+         when the toolbar animates downward and blurs the page. -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-x-0 bottom-0"
+      style="
+        height: max(32svh, 300px);
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 55%);
+        z-index: 9; /* below footer (z-10), above content (z-0) */
+      "
+    ></div>
     <!-- Main Content -->
     <main
       class="flex min-h-[100dvh] min-h-[100svh] min-h-screen flex-col items-start justify-start gap-8 px-1 pt-16 pb-12 md:px-4 lg:flex-row lg:gap-12 lg:pt-16 lg:pt-[6rem] lg:pb-36"
