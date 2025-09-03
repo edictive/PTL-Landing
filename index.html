@@ -395,6 +395,20 @@
     <footer
       class="pointer-events-none fixed inset-x-0 bottom-4 z-10 text-center text-stone-500"
     >
+      <!-- iOS Safari (transparent toolbar) background bleed fix:
+           Extend a white backdrop beyond the viewport so the bottom chrome
+           samples white instead of the page fading to transparent. -->
+      <div
+        aria-hidden="true"
+        class="absolute inset-x-0"
+        style="
+          top: 100%;              /* start just below the footer */
+          height: max(50vh, 260px); /* extend well past the viewport */
+          background: #ffffff;    /* solid white background */
+          z-index: -1;            /* sit behind the footer text */
+          pointer-events: none;
+        "
+      ></div>
       <div class="text-sm">© 2025 Predictive Text Labs</div>
     </footer>
   </body>
