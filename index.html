@@ -151,13 +151,13 @@
       /* Radial oval sizing for footer backdrop */
       :root {
         --oval-rx: 100vw; /* full viewport width */
-        --oval-ry: 8rem; /* mobile & tablet visible height */
+        --oval-ry: 10rem; /* mobile & tablet visible height */
       }
       @media (min-width: 1024px) {
         /* desktop */
         :root {
           --oval-rx: 100vw; /* full viewport width */
-          --oval-ry: 12rem; /* desktop visible height */
+          --oval-ry: 14rem; /* desktop visible height */
         }
       }
     </style>
@@ -399,10 +399,11 @@
     </footer>
     <div
       id="ios-footer-gradient"
-      class="pointer-events-none fixed inset-x-0 bottom-0 z-0 hidden h-[calc(env(safe-area-inset-bottom)+5rem)]"
+      class="pointer-events-none fixed inset-x-0 bottom-0 z-0 hidden"
       style="
+        height: calc(env(safe-area-inset-bottom) + var(--oval-ry));
         background: radial-gradient(
-          50% 160% at 50% 100%,
+          var(--oval-rx) var(--oval-ry) at 50% 100%,
           white,
           rgba(255, 255, 255, 0)
         );
